@@ -8,11 +8,19 @@ app.use(express.json());
 // Serve static files (index.html)
 app.use(express.static("public"));
 
-// OpenSearch is served in 9200
-const OPENSEARCH_URL = process.env.OPENSEARCH_URL || "http://localhost:9200";
-
 // Initialize OpenSearch client
-const client = new Client({ node: OPENSEARCH_URL });
+const OPENSEARCH_URL = process.env.OPENSEARCH_URL;
+const OPENSEARCH_USER = process.env.OPENSEARCH_USER;
+const OPENSEARCH_PASS = process.env.OPENSEARCH_PASS;
+const PORT = process.env.PORT || 5000;
+
+const client = new Client({
+    node: OPENSEARCH_URL,
+    auth: {
+        username: OPENSEARCH_USER,
+        password: OPENSEARCH_PASS,
+    },
+});
 
 // Get paintings with dynamic filtering
 app.get("/paintings", async (req, res) => {
@@ -40,7 +48,7 @@ app.get("/paintings", async (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
     console.log(`🚀 Server running at http://localhost:${PORT}`)
 );

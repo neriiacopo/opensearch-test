@@ -1,6 +1,15 @@
+require("dotenv").config();
 const { Client } = require("@opensearch-project/opensearch");
 
-const client = new Client({ node: "http://localhost:9200" });
+const client = new Client({
+    node: process.env.OPENSEARCH_URL,
+    auth: {
+        username: "admin-vord", // your master user
+        password: "1Wannaopensearch!", // the password you chose
+        // username: process.env.OPENSEARCH_USER, // your master user
+        // password: process.env.OPENSEARCH_PASS, // the password you chose
+    },
+});
 
 async function createIndices() {
     try {
@@ -47,7 +56,7 @@ async function insertSampleData() {
         // Sample paintings
         await client.index({
             index: "paintings",
-            id: "1",
+            id: "3",
             body: {
                 title: "The Last Supper",
                 artist: "Leonardo da Vinci",

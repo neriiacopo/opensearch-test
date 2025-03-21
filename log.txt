@@ -1,0 +1,18 @@
+# Setup ##################################
+
+# initialize the containter for opensearch
+npm run open_init
+
+# check that it is running
+npm run open_test
+
+# upload some data
+node .\test\seed.js  
+
+# Usage ##################################
+
+# run the container (if not already running)
+npm run open_start
+
+# run the server
+npm run start
